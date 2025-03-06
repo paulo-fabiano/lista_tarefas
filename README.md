@@ -21,16 +21,20 @@ Primeiramente, antes de executar qualquer um dos próximos passos é importante 
 Com a JDK(Java Development Kit) você irá conseguir compilar e executar o código.
 
 1. Clone o repositório:
+   
    ```bash
-   git clone https://github.com/paulo-fabiano/java-lista_telefonica.git
+      git clone https://github.com/paulo-fabiano/java-lista_tarefas.git
    ```
+   
 2. Acesse o diretório do projeto:
+   
    ```bash
-   cd java-lista_telefonica
+      cd java-lista_tarefas
    ```
 3. Compile e execute o projeto usando Maven:
+   
    ```bash
-   mvn spring-boot:run
+      mvn spring-boot:run
    ```
 
 ## 
