@@ -55,7 +55,7 @@ Com a JDK(Java Development Kit) você irá conseguir compilar e executar o códi
 
 ```bash
     curl -X POST http://localhost:8081/api/tarefa 
-    -H "Content-Type: application/json" 
+    -H "Content-type: application/json" 
     -d '{ 
         "nome" : "Criar API.", 
         "prioridade" : 10, 
@@ -78,7 +78,7 @@ Com a JDK(Java Development Kit) você irá conseguir compilar e executar o códi
 
 ```bash
     curl -X PUT http://localhost:8081/api/tarefa/1 
-    -H "Content-Type:application/json" 
+    -H "Content-type:application/json" 
     -d '{"prioridade" : "5"}'
 ```
 5. Deletar uma tarefa:
