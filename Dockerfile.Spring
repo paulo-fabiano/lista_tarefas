@@ -1,0 +1,7 @@
+FROM openjdk:17
+
+WORKDIR /app
+
+COPY target/lista_tarefas.jar /app
+
+CMD ["java", "-jar", "app.jar"]

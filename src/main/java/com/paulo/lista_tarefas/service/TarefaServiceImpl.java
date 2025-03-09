@@ -1,14 +1,18 @@
 package com.paulo.lista_tarefas.service;
 
+import com.paulo.lista_tarefas.dto.TarefaRequestDto;
+import com.paulo.lista_tarefas.dto.TarefaResponseDto;
 import com.paulo.lista_tarefas.entity.TarefaEntity;
 import com.paulo.lista_tarefas.exception.TarefaNaoEncontradaException;
 import com.paulo.lista_tarefas.repository.TarefaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(rollbackOn = Exception.class)
 public class TarefaServiceImpl implements TarefaService {
 
     private TarefaRepository tarefaRepository;
@@ -18,41 +22,54 @@ public class TarefaServiceImpl implements TarefaService {
     }
 
     @Override
-    public TarefaEntity salvarTarefa(TarefaEntity tarefa) {
-        return tarefaRepository.save(tarefa);
+    public TarefaResponseDto salvarTarefa(TarefaRequestDto dto) {
+        TarefaEntity tarefa = tarefaRepository.save(transformaEmTarefa(dto));
+        return transformaEmDto(tarefa);
     }
 
     @Override
-    public TarefaEntity buscarTarefa(Long id) {
-        return tarefaRepository.findById(id)
+    public TarefaResponseDto buscarTarefa(Long id) {
+        TarefaEntity tarefa = tarefaRepository.findById(id)
                 .orElseThrow(
-                        () -> new TarefaNaoEncontradaException("Não existe tafera com esse ID.")
+                        () -> new TarefaNaoEncontradaException("Não existe tarefa com esse ID.")
                 );
+        return transformaEmDto(tarefa);
     }
 
     @Override
-    public List<TarefaEntity> buscarTarefas() {
-        return tarefaRepository.findAll();
+    public List<TarefaResponseDto> buscarTarefas() {
+        List<TarefaResponseDto> listaTarefasDto = new ArrayList<>();
+        List<TarefaEntity> listaTarefas = tarefaRepository.findAll();
+        for(TarefaEntity tarefa : listaTarefas) {
+            TarefaResponseDto dto = new TarefaResponseDto(
+                    tarefa.getId(),
+                    tarefa.getNome(),
+                    tarefa.getPrioridade(),
+                    tarefa.getRealizado()
+            );
+            listaTarefasDto.add(dto);
+        }
+        return listaTarefasDto;
     }
 
     @Override
-    public void atualizarTarefa(Long id, TarefaEntity tarefaEntity) {
+    public void atualizarTarefa(Long id, TarefaRequestDto dto) {
         tarefaRepository.findById(id)
                 .ifPresentOrElse(
                         tarefa -> {
-                            if (tarefaEntity.getNome() != null) {
-                                tarefa.setNome(tarefaEntity.getNome());
+                            if (dto.getNome() != null) {
+                                tarefa.setNome(dto.getNome());
                             }
-                            if (tarefaEntity.getPrioridade() != null) {
-                                tarefa.setPrioridade(tarefaEntity.getPrioridade());
+                            if (dto.getPrioridade() != null) {
+                                tarefa.setPrioridade(dto.getPrioridade());
                             }
-                            if (tarefaEntity.getRealizado() != null) {
-                                tarefa.setPrioridade(tarefaEntity.getPrioridade());
+                            if (dto.getRealizado() != null) {
+                                tarefa.setPrioridade(dto.getPrioridade());
                             }
                             tarefaRepository.save(tarefa);
                         },
                         () -> {
-                            throw  new TarefaNaoEncontradaException("Não existe tafera com esse ID.");
+                            throw  new TarefaNaoEncontradaException("Não existe tarefa com esse ID.");
                         }
                 );
     }
@@ -67,4 +84,26 @@ public class TarefaServiceImpl implements TarefaService {
                          }
                  );
     }
+
+    @Override
+    public TarefaEntity transformaEmTarefa(TarefaRequestDto dto) {
+        TarefaEntity tarefa = TarefaEntity.builder()
+                .nome(dto.getNome())
+                .prioridade(dto.getPrioridade())
+                .realizado(dto.getRealizado())
+                .build();
+        return tarefa;
+    }
+
+    @Override
+    public TarefaResponseDto transformaEmDto(TarefaEntity tarefa) {
+        TarefaResponseDto dto = new TarefaResponseDto(
+                tarefa.getId(),
+                tarefa.getNome(),
+                tarefa.getPrioridade(),
+                tarefa.getRealizado()
+        );
+        return dto;
+    }
+
 }

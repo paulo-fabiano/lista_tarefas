@@ -1,5 +1,6 @@
 package com.paulo.lista_tarefas.controller;
 
+import com.paulo.lista_tarefas.dto.TarefaRequestDto;
 import com.paulo.lista_tarefas.entity.TarefaEntity;
 import com.paulo.lista_tarefas.service.TarefaServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -27,15 +28,14 @@ public class TarefaController {
     }
 
     @PostMapping( "/tarefa" )
-    public ResponseEntity<?> criarTarefa(@RequestBody TarefaEntity tarefa) {
+    public ResponseEntity<?> criarTarefa(@RequestBody TarefaRequestDto tarefa) {
         return ResponseEntity.status(HttpStatus.CREATED).body(tarefaService.salvarTarefa(tarefa));
     }
 
     @PutMapping( "/tarefa/atualizar/{id}" )
-    public ResponseEntity<?> atualizarTarefa(@PathVariable Long id, @RequestBody TarefaEntity tarefa) {
-            tarefaService.atualizarTarefa(id, tarefa);
+    public ResponseEntity<?> atualizarTarefa(@PathVariable Long id, @RequestBody TarefaRequestDto dto) {
+            tarefaService.atualizarTarefa(id, dto);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-
     }
 
     @DeleteMapping( "/tarefa/deletar/{id}" )
