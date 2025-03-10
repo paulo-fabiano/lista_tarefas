@@ -1,7 +1,7 @@
 # API Rest - Lista de Tarefas
 
 O repositório contém uma API Rest para o gerenciamento de tarefas (CRUD). Aproveite para praticar meus conhecimentos em 
-Docker e GitHub Actions e configurei um pipeline de CI com o GitHub Actions para fazer o build da iamgem e enviá-la ao Docker
+Docker e GitHub Actions e configurei um pipeline de CI com o GitHub Actions para fazer o build da imagem e enviá-la ao Docker
 Hub.
 
 Você pode executar esse projeto localmente sem precisar fazer o pull da imagem no Docker Hub. Acesse a seção `3.0` do `README`
