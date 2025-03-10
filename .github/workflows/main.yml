@@ -21,6 +21,9 @@ jobs:
 
       - name: Construindo o JAR
         run: mvn clean package -DskipTests
+        
+      - name: Debug Secrets
+        run: echo "DOCKERHUB_USUARIO=${{ secrets.DOCKERHUB_USUARIO }}"
 
       - name: Login no Docker Hub
         uses: docker/login-action@v3
