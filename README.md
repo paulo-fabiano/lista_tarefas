@@ -61,8 +61,8 @@ Com a JDK (Java Development Kit) você irá conseguir compilar e executar o cód
 1. Criando uma tarefa:
 
 ```bash
-    curl http://localhost:8081/api/tarefa -X POST
-    -H "Content-type: application/json" 
+    curl http://localhost:8081/api/tarefa -X POST \
+    -H "Content-type: application/json" \
     -d '{ 
         "nome" : "Criar API.", 
         "prioridade" : 10, 
@@ -85,8 +85,8 @@ Com a JDK (Java Development Kit) você irá conseguir compilar e executar o cód
 4. Atualizando uma tarefa:
 
 ```bash
-    curl http://localhost:8081/api/tarefa/1 -X PUT
-    -H "Content-type:application/json" 
+    curl http://localhost:8081/api/tarefa/1 -X PUT \
+    -H "Content-type:application/json" \
     -d '{"prioridade" : "5"}'
 ```
 
