@@ -2,16 +2,27 @@ pipeline {
 
     agent {
         docker {
-            image 'maven:3.8.3-openjdk-17'
+            image 'docker:20.10-dind'
+            args '--privileged'
         }
     }
 
     stages {
+
+        stage('Testes Unitários') {
+            echo 'Rodando testes unitários'
+        }
+        stage('Testes de Integração') {
+            echo 'Rodando testes de integração'
+        }
+        stage('SAST Trivy') {
+            echo 'Rodando SAST'
+        }
         // Build da Imagem Docker
-        stage('Build Backend') { 
+        stage('Build Backend Image') { 
              // Steps
             steps {
-               sh 'mvn clean install -DskipTests -Dmaven.test.skip=true -Dmaven.build.dest=/app/target' 
+               sh 'docker build -t paulofabiano/lista-tarefas:v1 -f Dockerfile.Spring' 
             }
         }
 
