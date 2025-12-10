@@ -2,14 +2,24 @@ pipeline {
 
     agent {
         docker {
-            image 'docker:20.10-dind'
-            args '--privileged'
+            image 'docker:24-cli'
             args '-v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
 
     stages {
 
+        stage('Install Trivy') {
+            steps {
+                echo 'Instalando Trivy'
+                sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.68.1'
+            }
+        }
+        stage('Scan Projeto') {
+            steps {
+                sh 'trivy fs --scanners vuln,secret,misconfig .'
+            }
+        }
         stage('Testes Unitários') {
             steps {
                 echo 'Rodando testes unitários'
@@ -20,16 +30,15 @@ pipeline {
                 echo 'Rodando testes de integração'
             }
         }
-        stage('SAST Trivy') {
-            steps {
-                echo 'Rodando SAST'
-            }
-        }
-        // Build da Imagem Docker
         stage('Build Backend Image') { 
              // Steps
             steps {
                sh 'docker build -t paulofabiano/lista-tarefas:v1 -f Dockerfile.Spring .' 
+            }
+        }
+        stage('Scan Backend Image') {
+            steps {
+                sh 'trivy image paulofabiano/lista-tarefas:v1'
             }
         }
 
