@@ -10,13 +10,19 @@ pipeline {
     stages {
 
         stage('Testes Unitários') {
-            echo 'Rodando testes unitários'
+            steps {
+                echo 'Rodando testes unitários'
+            }
         }
         stage('Testes de Integração') {
-            echo 'Rodando testes de integração'
+            steps {
+                echo 'Rodando testes de integração'
+            }
         }
         stage('SAST Trivy') {
-            echo 'Rodando SAST'
+            steps {
+                echo 'Rodando SAST'
+            }
         }
         // Build da Imagem Docker
         stage('Build Backend Image') { 
