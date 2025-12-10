@@ -4,6 +4,7 @@ pipeline {
         docker {
             image 'docker:20.10-dind'
             args '--privileged'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
 
