@@ -1,9 +1,21 @@
 pipeline {
 
-    agent any
+    agent {
+        docker {
+            image 'alpine:3.23.0'
+        }
+    }
 
     stages {
-
+        stage('Config Alpine') {
+            steps {
+                echo 'Instalando CURL'
+                sh 'apk add curl'
+                
+                echo 'Instalando DockerCLI'
+                sh 'apk add docker-cli'
+            }
+        }
         stage('Install Trivy') {
             steps {
                 echo 'Instalando Trivy'
