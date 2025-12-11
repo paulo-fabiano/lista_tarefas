@@ -1,9 +1,7 @@
 name: Pipeline Build and Push no Docker Hub
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispath:
 
 jobs:
   build:

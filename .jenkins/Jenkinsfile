@@ -3,6 +3,7 @@ pipeline {
     agent {
         docker {
             image 'alpine:3.23.0'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
 
@@ -11,9 +12,12 @@ pipeline {
             steps {
                 echo 'Instalando CURL'
                 sh 'apk add curl'
-                
+
                 echo 'Instalando DockerCLI'
                 sh 'apk add docker-cli'
+
+                echo 'List'
+                sh 'ls -la'
             }
         }
         stage('Install Trivy') {
@@ -38,7 +42,6 @@ pipeline {
             }
         }
         stage('Build Backend Image') { 
-             // Steps
             steps {
                sh 'docker build -t paulofabiano/lista-tarefas:v1 -f Dockerfile.Spring .' 
             }
