@@ -15,9 +15,6 @@ pipeline {
 
                 echo 'Instalando DockerCLI'
                 sh 'apk add docker-cli'
-
-                echo 'List'
-                sh 'ls -la'
             }
         }
         stage('Install Trivy') {
